@@ -51,4 +51,12 @@ class User extends Model implements AuthenticatableContract
     public function getFirstNameOrUsername() {
         return $this->first_name ?: $this->username;
     }
+
+    public function getAvatarUrl() {
+
+        // mm -     mistery men
+        // s -      size
+        return "https://www.gravatar.com/avatar/{{ md5($this->email) }}?d=mm&s=40";
+
+    }
 }

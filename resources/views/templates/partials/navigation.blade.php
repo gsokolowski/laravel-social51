@@ -1,17 +1,17 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a href="#" class="navbar-brand">Social</a>
+            <a href="{{ route('home') }}" class="navbar-brand">Social</a>
         </div>
 
         <div class="collapse navbar-collapse">
-            @if (Auth::check())
+            @if (Auth::check()) <!-- if user is sign in then show timeline friends search -->
                 <ul class="nav navbar-nav">
                     <li><a href="#">Timeline</a></li>
                     <li><a href="#">Friends</a></li>
                 </ul>
 
-                <form action="#" role="search" class="navbar-form navbar-left">
+                <form action="{{ route('search.results') }}" role="search" class="navbar-form navbar-left">
                     <div class="form-group">
                         <input type="text" name="query" class="form-control"
                                placeholder="Find people"/>
@@ -20,9 +20,9 @@
                 </form>
             @endif
             <ul class="nav navbar-nav navbar-right">
-                @if ( Auth::check() ) <!-- if user is sign in the show these 3 lis -->
-                    <li><a href="#">{{ Auth::user()->getNameOrUsername() }}</a></li>
-                    <li><a href="#">Update profile</a></li>
+                @if ( Auth::check() ) <!-- if user is sign in then show these 3 li's -->
+                    <li><a href="{{ route('profile.index', ['username' => Auth::user()->username]) }}">{{ Auth::user()->getNameOrUsername() }}</a></li>
+                    <li><a href="{{ route('profile.edit') }}">Update profile</a></li>
                     <li><a href="{{ route('auth.signout') }}">Sign out</a></li>
                 @else
                     <li><a href="{{ route('auth.signup') }}">Sign up</a></li>
