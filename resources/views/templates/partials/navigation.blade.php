@@ -7,10 +7,9 @@
         <div class="collapse navbar-collapse">
             @if (Auth::check()) <!-- if user is sign in then show timeline friends search -->
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Timeline</a></li>
-                    <li><a href="#">Friends</a></li>
+                    <li><a href="{{ route('home') }}">Timeline</a></li>
+                    <li><a href="{{ route('friends.index') }}">Friends</a></li>
                 </ul>
-
                 <form action="{{ route('search.results') }}" role="search" class="navbar-form navbar-left">
                     <div class="form-group">
                         <input type="text" name="query" class="form-control"

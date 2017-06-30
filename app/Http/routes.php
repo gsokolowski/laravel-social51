@@ -27,13 +27,22 @@ Route::post('/signin', 'AuthController@postSignin')->middleware('guest');
 Route::get('/signout', 'AuthController@getSignout')->name('auth.signout');
 
 
+
 // Search
 Route::get('/search', 'SearchController@getResults')->name('search.results');
 
+
+
 // User profile
 Route::get('/user/{username}', 'ProfileController@getProfile')->name('profile.index');
-
-// you need to be sign in to access these two routes
+// you need to be sign in to access these two routes therfore ->middleware('auth');
 Route::get('/profile/edit', 'ProfileController@getEdit')->name('profile.edit')->middleware('auth');
 Route::post('/profile/edit', 'ProfileController@postEdit')->name('profile.edit')->middleware('auth');
+
+
+
+// Friends
+Route::get('/friends', 'FriendController@getIndex')->name('friends.index')->middleware('auth');
+Route::get('/friends/add/{username}', 'FriendController@getAdd')->name('friends.add')->middleware('auth');
+Route::get('/friends/accept/{username}', 'FriendController@getAccept')->name('friends.accept')->middleware('auth');
 
