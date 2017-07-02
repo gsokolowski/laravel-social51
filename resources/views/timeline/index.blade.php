@@ -3,12 +3,26 @@
 @section('content')
 
     <div class="row">
-        <div class="col-lg-5">
-            @include('user/partials/userblock')
+        <div class="col-lg-6">
+            <form role="form" action="{{ route('status.post') }}" method="post">
+                <div class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
+                    <textarea placeholder="What's up {{ Auth::user()->getNameOrUsername() }}" name="status" class="form-control" rows="2"></textarea>
+                    @if ($errors->has('status'))
+                        <span class="help-block">{{ $errors->first('status') }}</span>
+                    @endif
+                </div>
+                <input type="hidden" name="_token" value="{{ Session::token() }}">
+                <button type="submit" class="btn btn-default">Update status</button>
+            </form>
             <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-5">
 
             @if(! $statuses->count() )
-                <p> {{ $user->getNameOrUsername() }} hasn't posted anything yet.</p>
+                <p>No statuses</p>
             @else
                 @foreach($statuses as $status)
                     <p>{{ $status->body }}</p>
@@ -47,7 +61,6 @@
                                 </div>
                             @endforeach
 
-                            @if ($authUserIsFriend || Auth::user()->id === $status->user->id)
                             <form role="form" action="{{ route('status.reply', ['statusId' => $status->id]) }}" method="post">
                                 <div class="form-group{{ $errors->has("reply-{$status->id}") ? ' has-error' : ''}}">
                                     <textarea name="reply-{{ $status->id }}" class="form-control" rows="2" placeholder="Reply to this status"></textarea>
@@ -59,35 +72,13 @@
 
                                 <input type="hidden" name="_token" value="{{ Session::token() }}">
                             </form>
-                            @endif
                         </div>
                     </div>
                 @endforeach
-            @endif
-        </div>
-        <div class="col-lg-4 col-lg-offset-3">
-
-            @if (Auth::user()->hasFriendRequestPending($user))
-                <p>Waiting for {{ $user->getNameOrUsername() }} to accept your request</p>
-
-            @elseif (Auth::user()->hasFriendRequestReceived($user))
-                <a href="{{ route('friends.accept', ['username'=> $user->username]) }}" class="btn btn-primary">Accept friend request</a>
-
-            @elseif (Auth::user()->isFriendsWith($user))
-                <p>You and {{ $user->getNameOrUsername() }} are friends</p>
-            @elseif (Auth::user()!=$user)
-                <a href="{{ route('friends.add', ['username'=> $user->username]) }}" class="btn btn-primary">Add as friend</a>
-            @endif
-
-
-            <h4>{{ $user->getFirstNameOrUsername() }}'s friends</h4>
-            @if ( ! $user->friends()->count() )
-                <p>No friends</p>
-            @else
-                @foreach( $user->friends() as $user)
-                    @include('user/partials/userblock')
-                @endforeach
+                <!-- render pagination -->
+                {!! $statuses->render() !!}
             @endif
         </div>
     </div>
+
 @stop

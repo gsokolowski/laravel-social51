@@ -46,3 +46,8 @@ Route::get('/friends', 'FriendController@getIndex')->name('friends.index')->midd
 Route::get('/friends/add/{username}', 'FriendController@getAdd')->name('friends.add')->middleware('auth');
 Route::get('/friends/accept/{username}', 'FriendController@getAccept')->name('friends.accept')->middleware('auth');
 
+
+
+//Statuses
+Route::post('/status', 'StatusController@postStatus')->name('status.post')->middleware('auth');
+Route::post('/status/{statusId}/reply', 'StatusController@postReply')->name('status.reply')->middleware('auth');

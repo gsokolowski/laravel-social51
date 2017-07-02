@@ -60,6 +60,14 @@ class User extends Model implements AuthenticatableContract
 
     }
 
+
+    /* Relations */
+
+    public function statuses() {
+        // user has meny statuses, foreign key user_id in statuses relates to id in user table
+        return $this->hasMany('Social\Models\Status', 'user_id');
+    }
+
     public function friendsOfMine() {
         // set relationship between users table and pivot table friends
         // One user can have many friends
